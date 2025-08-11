@@ -1,4 +1,3 @@
-// src/App.jsx
 import "./App.css"
 import { useState } from 'react'
 function App() {
@@ -90,12 +89,33 @@ const [zombieFighters, setZombieFighters] = useState(
 ]
 )
 const handleAddFighter = (character) => {
-  
+  console.log(character)
+  if (money < character.price) {
+    console.log("Not enough money!")
+    return
+    
+  }
+  setTeam(team => [...team, character])
+  setMoney(money => [money - character.price])
 }
+let totalStrength = 0
+  team.forEach(teamMember => {
+  totalStrength+=teamMember.strength
+})
+let totalAgility = 0
+  team.forEach(teamMember => {
+  totalAgility+=teamMember.agility
+})
+const handleRemoveFighter = (character) => {
+setTeam(team => [team - character.team])
+}
+// console.log(totalStrength)
   return (
     
     <ul>
-    <h2>{team.length === 0 ? "Pick some team members!" : "Your team:"}</h2>
+      <h2>Money: ${money}</h2>
+    <h2>{team.length === 0 ? "Pick some team members!" : ""}</h2>
+    
     {zombieFighters.map((character) => (
       <li key={character.id}>
         <img src={character.img} alt={character.name} />
@@ -103,9 +123,22 @@ const handleAddFighter = (character) => {
         <p>Price: {character.price}</p>
         <p>Strength: {character.strength}</p>
         <p>Agility: {character.agility}</p>
-        <button>Add</button>
+        <button onClick={() => handleAddFighter(character)}>Add</button>
       </li>
     ))}
+    <h2>Your team:{team.length}</h2>
+    {team.map((team) => (
+      <li key={team}>
+        <img src={team.img} alt={team.name} />
+       <h3>{team.name}</h3>
+        <p>Price: {team.price}</p>
+        <p>Strength: {team.strength}</p>
+        <p>Agility: {team.agility}</p>
+        <button onClick={() => handleRemoveFighter(character)}>Remove</button>
+    </li>
+    ))}
+    <h3>Total Strength: {totalStrength}</h3>
+    <h3>Total Agility: {totalAgility}</h3>
     </ul>
   )
 
